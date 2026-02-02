@@ -1,4 +1,4 @@
-#include "Tokens.h"
+#include "LexAnalyze.h"
 
 int main()
 {
@@ -10,9 +10,18 @@ int main()
 		" return count;\n"
 		"}\n";
 	
-	Tokens text{};
+	LexAnalyze lexer = LexAnalyze();
 
-	text.tokenize(code);
+	lexer.lex(code);
+
+	vector<lexeme> tokens = lexer.get_tokens();
+
+	cout << "S. No." << " Lexeme " << " Token " << "Line No." << endl;
+
+	for (int i = 0; i < tokens.size(); i++)
+	{
+		cout << i << ". " << tokens[i].type_to_string() << " " << tokens[i].val << " " << tokens[i].line << endl;
+	}
 
 	return 0;
 }
