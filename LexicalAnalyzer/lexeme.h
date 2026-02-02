@@ -25,6 +25,7 @@ enum types {
     PLUSEQUAL,     // +=
     MINUSEQUAL,    // -=
     NOTEQUAL,      // !=
+    DIV,           // /
 
     END_OF_FILE,
     UNKNOWN

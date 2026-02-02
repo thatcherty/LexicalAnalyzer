@@ -23,7 +23,6 @@ static bool is_whitespace_(char c)
 
 static bool is_keyword_(const string& s)
 {
-    // Extend this set as needed for your language.
     static const unordered_map<string, bool> keywords{
         {"int", true}, {"for", true}, {"if", true}, {"else", true}, {"return", true}
     };
@@ -32,10 +31,6 @@ static bool is_keyword_(const string& s)
 
 LexAnalyze::LexAnalyze()
 {
-    reg_ex.emplace(ID_OR_KEY, regex(R"([A-Za-z_])"));
-    reg_ex.emplace(DIGIT, regex(R"([0-9])"));
-
-    state = ID_OR_KEY;
 }
 
 void LexAnalyze::lex(string& code)
@@ -62,7 +57,7 @@ void LexAnalyze::lex(string& code)
     {
         char c = peek(i);
 
-        // Skip whitespace (but track line/col)
+        // Skip whitespace
         if (is_whitespace_(c))
         {
             if (c == '\n') { line++; col = 1; }
@@ -83,7 +78,8 @@ void LexAnalyze::lex(string& code)
                 col += 2;
                 while (i < code.size() && peek(i) != '\n')
                 {
-                    i++; col++;
+                    i++; 
+                    col++;
                 }
                 continue;
             }
@@ -102,14 +98,15 @@ void LexAnalyze::lex(string& code)
                         col += 2;
                         break;
                     }
-                    i++; col++;
+                    i++; 
+                    col++;
                 }
                 continue;
             }
 
-            // If you want DIV as a token later, add it to enum types.
-            push_tok(UNKNOWN, "/", line, col);
-            i++; col++;
+            push_tok(DIV, "/", line, col);
+            i++; 
+            col++;
             continue;
         }
 
@@ -121,7 +118,8 @@ void LexAnalyze::lex(string& code)
             while (i < code.size() && is_alnum_(peek(i)))
             {
                 s.push_back(peek(i));
-                i++; col++;
+                i++; 
+                col++;
             }
 
             if (is_keyword_(s)) push_tok(KEYWORD, s, line, start_col);
@@ -129,7 +127,7 @@ void LexAnalyze::lex(string& code)
             continue;
         }
 
-        // Number (integer for now)
+        // Number
         if (is_digit_(c))
         {
             int start_col = col;
@@ -166,7 +164,8 @@ void LexAnalyze::lex(string& code)
                 }
 
                 s.push_back(ch);
-                i++; col++;
+                i++; 
+                col++;
 
                 if (ch == '"') break;
                 if (ch == '\n') { line++; col = 1; } // in case of bad multiline string
@@ -182,7 +181,8 @@ void LexAnalyze::lex(string& code)
             int start_col = col;
             string s;
             s.push_back('\'');
-            i++; col++;
+            i++; 
+            col++;
 
             while (i < code.size())
             {
@@ -198,7 +198,8 @@ void LexAnalyze::lex(string& code)
                 }
 
                 s.push_back(ch);
-                i++; col++;
+                i++; 
+                col++;
 
                 if (ch == '\'') break;
                 if (ch == '\n') { line++; col = 1; }
@@ -216,7 +217,8 @@ void LexAnalyze::lex(string& code)
             if (c == '!' && peek(i, 1) == '=')
             {
                 push_tok(NOTEQUAL, "!=", line, start_col);
-                i += 2; col += 2;
+                i += 2; 
+                col += 2;
                 continue;
             }
 
@@ -224,7 +226,8 @@ void LexAnalyze::lex(string& code)
             if (c == '+' && peek(i, 1) == '=')
             {
                 push_tok(PLUSEQUAL, "+=", line, start_col);
-                i += 2; col += 2;
+                i += 2; 
+                col += 2;
                 continue;
             }
 
@@ -232,7 +235,8 @@ void LexAnalyze::lex(string& code)
             if (c == '-' && peek(i, 1) == '=')
             {
                 push_tok(MINUSEQUAL, "-=", line, start_col);
-                i += 2; col += 2;
+                i += 2; 
+                col += 2;
                 continue;
             }
         }
@@ -271,7 +275,8 @@ void LexAnalyze::lex(string& code)
                 push_tok(UNKNOWN, string(1, c), line, start_col);
                 break;
             }
-            i++; col++;
+            i++; 
+            col++;
             continue;
         }
     }
