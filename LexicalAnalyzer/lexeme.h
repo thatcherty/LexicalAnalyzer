@@ -27,7 +27,6 @@ enum types {
     NOTEQUAL,      // !=
     DIV,           // /
 
-    END_OF_FILE,
     UNKNOWN
 };
 

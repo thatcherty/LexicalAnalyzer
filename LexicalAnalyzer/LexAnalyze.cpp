@@ -37,9 +37,13 @@ void LexAnalyze::lex(string& code)
 {
     tokens.clear();
 
+    // Track current line
     int line = 1;
+
+    // Used to index code
     int col = 1;
 
+    // Add token to vector
     auto push_tok = [&](types t, const string& v, int l, int c) {
         lexeme lx(t, v);
         lx.line = l;
@@ -47,6 +51,7 @@ void LexAnalyze::lex(string& code)
         tokens.push_back(lx);
         };
 
+    // Check next token before dispatch
     const auto peek = [&](size_t i, size_t ahead = 0) -> char {
         size_t idx = i + ahead;
         if (idx >= code.size()) return '\0';

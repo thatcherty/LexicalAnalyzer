@@ -26,7 +26,6 @@ string lexeme::type_to_string()
     case PLUSEQUAL:    return "PLUSEQUAL";
     case MINUSEQUAL:   return "MINUSEQUAL";
     case NOTEQUAL:     return "NOTEQUAL";
-    case END_OF_FILE:  return "EOF";
     case UNKNOWN:      return "UNKNOWN";
     default:           return "INVALID";
     }
